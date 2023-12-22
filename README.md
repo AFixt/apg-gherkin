@@ -2,6 +2,19 @@
 
 Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Features
 
+## Current list of features
+
+* [Accordion](features/accordion.feature)
+* [Carousel](features/carousel.feature)
+* [Checkbox](features/checkbox.feature)
+* [Meter](features/meter.feature)
+* [Modal Dialog](features/modal-dialog.feature)
+* [Radiogroup](features/radiogroup.feature)
+* [Table](features/table.feature)
+* [Tabs](features/tabs.feature)
+* [Toolbar](features/toolbar.feature)
+* [Window Splitter](features/window-splitter.feature)
+
 ## Note
 
 Some patterns are still under development by the APG and may change in the future.
