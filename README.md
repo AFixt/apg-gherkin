@@ -12,6 +12,7 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 * [Meter](features/meter.feature)
 * [Modal Dialog](features/modal-dialog.feature)
 * [Radiogroup](features/radiogroup.feature)
+* [Slider](features/slider.feature)
 * [Spinbuton](features/spinbutton.feature)
 * [Switch](features/switch.feature)
 * [Table](features/table.feature)
