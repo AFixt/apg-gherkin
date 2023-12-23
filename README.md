@@ -5,6 +5,7 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 ## Current list of features
 
 * [Accordion](features/accordion.feature)
+* [Breadcrumb](features/breadcrumb.feature)
 * [Button](features/button.feature)
 * [Carousel](features/carousel.feature)
 * [Checkbox](features/checkbox.feature)
