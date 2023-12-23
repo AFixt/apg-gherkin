@@ -9,6 +9,7 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 * [Checkbox](features/checkbox.feature)
 * [Disclosure](features/disclosure.feature)
 * [Feed](features/feed.feature)
+* [Grid](feature/grid.feature)
 * [Link](features/link.feature)
 * [Listbox](features/listbox.feature)
 * [Menubar](features/menubar.feature)
