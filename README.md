@@ -7,6 +7,7 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 * [Accordion](features/accordion.feature)
 * [Carousel](features/carousel.feature)
 * [Checkbox](features/checkbox.feature)
+* [Feed](features/feed.feature)
 * [Meter](features/meter.feature)
 * [Modal Dialog](features/modal-dialog.feature)
 * [Radiogroup](features/radiogroup.feature)
