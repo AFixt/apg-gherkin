@@ -14,6 +14,7 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 * [Tabs](features/tabs.feature)
 * [Toolbar](features/toolbar.feature)
 * [Treegrid](features/treegrid.feature)
+* [Treeview](features/treeview.feature)
 * [Window Splitter](features/window-splitter.feature)
 
 ## Note
