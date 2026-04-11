@@ -15,8 +15,10 @@ Feature: Listbox Interaction and Accessibility
     And focus should be set on the selected option if one is selected
     When I press 'Down Arrow'
     Then focus moves to the next option
+    And selection follows focus in a single-select listbox
     When I press 'Up Arrow'
     Then focus moves to the previous option
+    And selection follows focus in a single-select listbox
     When I press 'Home'
     Then focus moves to the first option
     When I press 'End'
@@ -27,24 +29,90 @@ Feature: Listbox Interaction and Accessibility
     When the listbox receives focus
     Then focus should be set on the first option if none are selected
     And focus should be set on the first selected option if one or more are selected
+    When I press 'Down Arrow'
+    Then focus moves to the next option without changing selection
+    When I press 'Up Arrow'
+    Then focus moves to the previous option without changing selection
     When I press 'Space'
     Then the selection state of the focused option changes
 
+  Scenario: Multi-Select Listbox with Shift Key
+    Given a multi-select listbox is present
+    When I press 'Shift + Down Arrow'
+    Then focus moves to the next option and the selection state is extended
+    When I press 'Shift + Up Arrow'
+    Then focus moves to the previous option and the selection state is extended
+    When I press 'Shift + Home'
+    Then focus moves to the first option and all options between the focus and the first option are selected
+    When I press 'Shift + End'
+    Then focus moves to the last option and all options between the focus and the last option are selected
+    When I press 'Control + Shift + Home'
+    Then focus moves to the first option, the selection of all options between the focus and the first option is unchanged, and all other options above become selected
+    When I press 'Control + Shift + End'
+    Then focus moves to the last option, the selection of all options between the focus and the last option is unchanged, and all other options below become selected
+
+  Scenario: Select All in a Multi-Select Listbox
+    Given a multi-select listbox is present
+    When I press 'Control + A'
+    Then all options in the listbox should be selected
+    And if all options are already selected, all options should be deselected
+
   Scenario: Type-Ahead Feature in Listboxes
     Given a listbox is present with more than seven options
-    When I type a character
-    Then focus moves to the next item starting with that character
+    When I type a single character
+    Then focus moves to the next option starting with that character
+    When I type multiple characters in quick succession
+    Then focus moves to the next option whose label starts with the typed string
 
-  Scenario: Accessibility Features of Listbox
+  Scenario: Scrolling Behavior
+    Given a listbox has scrollable content
+    When focus moves to an option that is not visible
+    Then the option should scroll into view
+    And the listbox should not scroll when focus does not move
+
+  Scenario: WAI-ARIA Roles, States, and Properties for Listbox Container
     Given a listbox is present on the page
-    Then it should have the role 'listbox'
-    And each option should have the role 'option'
-    And selectable but not selected options should have 'aria-selected' set to false
-    And selected options should have 'aria-selected' set to true
+    Then the container element should have a role of 'listbox'
+    And the listbox should have an accessible name via 'aria-labelledby' or 'aria-label'
+    And if the listbox is not part of another widget, it should be in the page tab sequence
 
-  Scenario: Listbox Orientation and Dynamic Loading
+  Scenario: WAI-ARIA Roles, States, and Properties for Options
+    Given a listbox is present on the page
+    Then each option should have a role of 'option'
+    And each option should be a DOM descendant of the listbox or referenced by 'aria-owns'
+    And selected options should have 'aria-selected' set to true
+    And selectable but not selected options should have 'aria-selected' set to false
+    And options that are not selectable should not have 'aria-selected' set
+
+  Scenario: Multi-Select Listbox ARIA Properties
+    Given a multi-select listbox is present
+    Then the listbox element should have 'aria-multiselectable' set to true
+
+  Scenario: Listbox Orientation
     Given a listbox is present on the page
     When options are arranged horizontally
-    Then the listbox should have 'aria-orientation' set to horizontal
-    And when dynamic loading is used
-    Then 'aria-setsize' and 'aria-posinset' attributes should be set appropriately
+    Then the listbox should have 'aria-orientation' set to 'horizontal'
+    And 'Down Arrow' should perform as 'Right Arrow' and 'Up Arrow' should perform as 'Left Arrow'
+
+  Scenario: Disabled Options
+    Given a listbox has disabled options
+    Then disabled options should have 'aria-disabled' set to true
+    And disabled options should remain focusable but not selectable
+
+  Scenario: Dynamic Loading
+    Given a listbox uses dynamic loading
+    Then options should have 'aria-setsize' set to the total number of available options
+    And options should have 'aria-posinset' set to their position within the full list
+
+  Scenario: Focus Management with aria-activedescendant
+    Given a listbox uses 'aria-activedescendant' for focus management
+    Then DOM focus should remain on the listbox element
+    And 'aria-activedescendant' should be set to the ID of the focused option
+    And the visual focus indicator should be on the option referenced by 'aria-activedescendant'
+
+  Scenario: Rearranging Options
+    Given a listbox supports rearranging options
+    When I press 'Alt + Down Arrow' on a focused option
+    Then the focused option should move one position down
+    When I press 'Alt + Up Arrow' on a focused option
+    Then the focused option should move one position up
