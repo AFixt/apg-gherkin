@@ -35,7 +35,7 @@ Feature: Checkbox Interaction and Accessibility
     Then all checkboxes in the group should become unchecked
     When the tri-state checkbox is partially checked
     And I activate the tri-state checkbox
-    Then the checkboxes in the group should return to the last partially checked state
+    Then optionally the checkboxes in the group should return to the last partially checked state
 
   Scenario: WAI-ARIA Roles, States, and Properties of the Checkbox
     Given a checkbox is present on the page

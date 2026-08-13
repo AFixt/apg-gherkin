@@ -25,6 +25,7 @@ Feature: Spinbutton Interaction and Accessibility
 
   Scenario: Directly Editing the Spinbutton Value
     Given the spinbutton allows direct text editing
+    Then standard single line text editing keys appropriate for the device platform should be supported
     When I type valid characters
     Then the spinbutton value should change accordingly
     And only allowed characters should be accepted

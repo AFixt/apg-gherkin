@@ -18,6 +18,8 @@ Feature: Accordion Interaction and Accessibility
 
   Scenario: Keyboard Navigation within the Accordion
     Given the accordion is in focus
+    When I press 'Enter' or 'Space' and focus is on an accordion header
+    Then the associated panel should expand, or collapse if it is already expanded and the implementation supports collapsing
     When I press 'Tab'
     Then focus should move to the next focusable element in the accordion
     When I press 'Shift + Tab'
@@ -35,7 +37,9 @@ Feature: Accordion Interaction and Accessibility
     Given an accordion is present on the page
     Then each accordion header should have a role of 'button' and be wrapped in a 'heading' element
     And the 'heading' element should have an appropriate 'aria-level'
+    And the button element should be the only element inside the 'heading' element
     And if an accordion panel is visible, its header button should have 'aria-expanded' set to true
+    And if an accordion panel is not visible, its header button should have 'aria-expanded' set to false
     And each header button should control visibility of its associated panel and have 'aria-controls' set to the panel's ID
     And if a visible panel cannot be collapsed, its header button should have 'aria-disabled' set to true
     Optionally, each accordion panel container may have a role of 'region' and be labelled by the accordion header

@@ -33,8 +33,12 @@ Feature: Menu Button Interaction and Accessibility
 
   Scenario: Accessibility Features of the Menu Button
     Given a menu button is present on the page
-    Then it should have appropriate WAI-ARIA roles, states, and properties
-    And its state should reflect whether the menu is expanded or collapsed
+    Then the element that opens the menu should have a role of 'button'
+    And the element with role 'button' should have 'aria-haspopup' set to 'menu' or true
+    And when the menu is displayed the element with role 'button' should have 'aria-expanded' set to true
+    And when the menu is hidden the element with role 'button' should have 'aria-expanded' set to false
+    And the element that contains the menu items should have a role of 'menu'
+    Optionally, the element with role 'button' may have 'aria-controls' referring to the element with role 'menu'
     And the menu options should be accessible and navigable via keyboard
 
   Scenario: Mouse Interaction with Menu Options

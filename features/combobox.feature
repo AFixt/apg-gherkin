@@ -21,6 +21,8 @@ Feature: Combobox Interaction and Accessibility
     And focus should move to the first focusable element in the popup if using DOM focus
     When I press 'Alt + Down Arrow'
     Then the popup should open without moving focus from the combobox
+    Optionally, when I press 'Alt + Up Arrow' while the popup is displayed
+    Then the popup should close and focus should return to the combobox input
 
   Scenario: Closing the Popup
     Given the popup is open
@@ -28,6 +30,7 @@ Feature: Combobox Interaction and Accessibility
     Then the popup should be dismissed
     And focus should return to the combobox input
     And if the combobox is editable, the value in the input should not be cleared
+    Optionally, if the popup was already hidden when 'Escape' was pressed, the combobox may be cleared
 
   Scenario: Selecting a Value
     Given the popup is open
@@ -81,8 +84,8 @@ Feature: Combobox Interaction and Accessibility
     Then focus or highlight moves to the first option
     When I press 'End' in the popup
     Then focus or highlight moves to the last option
-    When I press any printable character in the popup
-    Then focus should return to the combobox input and the character should be typed
+    When I press any printable character in the popup and the combobox is editable
+    Then focus should return to the combobox input without closing the popup and the character should be typed
 
   Scenario: Keyboard Navigation in a Grid Popup
     Given the popup is a grid and is open
@@ -113,6 +116,10 @@ Feature: Combobox Interaction and Accessibility
     Then the parent node should collapse
     When I press 'Left Arrow' on a child or closed node
     Then focus moves to the parent node
+    When I press 'Home' in the tree
+    Then focus moves to the first focusable node in the tree without opening or closing a node
+    When I press 'End' in the tree
+    Then focus moves to the last focusable node in the tree without opening or closing a node
 
   Scenario: Dialog Popup
     Given the popup is a dialog
@@ -138,10 +145,10 @@ Feature: Combobox Interaction and Accessibility
   Scenario: WAI-ARIA Roles, States, and Properties for Combobox
     Given a combobox is present on the page
     Then the input element should have role 'combobox'
-    And the combobox should have 'aria-haspopup' set to the role of the popup element
+    And if the popup has a role other than 'listbox', the combobox should have 'aria-haspopup' set to a value corresponding to the popup type
     And the combobox should have 'aria-expanded' set to true when the popup is open
     And the combobox should have 'aria-expanded' set to false when the popup is closed
-    And the combobox should have an accessible name via 'aria-labelledby' or 'aria-label'
+    And the combobox should have an accessible name via a visible 'label' element, 'aria-labelledby', or 'aria-label'
 
   Scenario: WAI-ARIA Properties for Popup Control
     Given a combobox with a popup is present

@@ -17,16 +17,22 @@ Feature: Radio Group Interaction and Accessibility
     When I press 'Space'
     Then the focused radio button should be checked
     When I press 'Right Arrow' or 'Down Arrow'
-    Then focus moves to the next radio button, checking it and unchecking the previous one
+    Then focus moves to the next radio button, checking it and unchecking the previously focused one
+    And if focus is on the last radio button, focus moves to the first radio button
     When I press 'Left Arrow' or 'Up Arrow'
-    Then focus moves to the previous radio button, checking it and unchecking the previous one
+    Then focus moves to the previous radio button, checking it and unchecking the previously focused one
+    And if focus is on the first radio button, focus moves to the last radio button
 
   Scenario: Keyboard Interaction with Radio Group in a Toolbar
     Given a radio group is in a toolbar
     When I navigate through the toolbar using 'Right Arrow' or 'Left Arrow'
     Then focus should move between radio buttons without changing the checked state
-    When I press 'Space' or 'Enter' (optional)
-    Then the focused radio button should be checked
+    And when focus is on the last radio button in the group, 'Right Arrow' moves focus to the next element in the toolbar
+    And when focus is on the first radio button in the group, 'Left Arrow' moves focus to the previous element in the toolbar
+    When I press 'Space'
+    Then the focused radio button should be checked, unchecking the currently checked radio button
+    When I press 'Enter' (optional)
+    Then the focused radio button should be checked, unchecking the currently checked radio button
     When I press 'Down Arrow' (optional)
     Then focus moves to the next radio button in the radio group
     When I press 'Up Arrow' (optional)
