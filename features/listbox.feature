@@ -15,10 +15,10 @@ Feature: Listbox Interaction and Accessibility
     And focus should be set on the selected option if one is selected
     When I press 'Down Arrow'
     Then focus moves to the next option
-    And selection follows focus in a single-select listbox
+    And optionally, selection may also move with focus in a single-select listbox
     When I press 'Up Arrow'
     Then focus moves to the previous option
-    And selection follows focus in a single-select listbox
+    And optionally, selection may also move with focus in a single-select listbox
     When I press 'Home'
     Then focus moves to the first option
     When I press 'End'
@@ -39,23 +39,23 @@ Feature: Listbox Interaction and Accessibility
   Scenario: Multi-Select Listbox with Shift Key
     Given a multi-select listbox is present
     When I press 'Shift + Down Arrow'
-    Then focus moves to the next option and the selection state is extended
+    Then focus moves to the next option and its selected state is toggled
     When I press 'Shift + Up Arrow'
-    Then focus moves to the previous option and the selection state is extended
-    When I press 'Shift + Home'
-    Then focus moves to the first option and all options between the focus and the first option are selected
-    When I press 'Shift + End'
-    Then focus moves to the last option and all options between the focus and the last option are selected
+    Then focus moves to the previous option and its selected state is toggled
+    When I press 'Shift + Space' (Optional)
+    Then contiguous items from the most recently selected item to the focused item are selected
     When I press 'Control + Shift + Home'
-    Then focus moves to the first option, the selection of all options between the focus and the first option is unchanged, and all other options above become selected
+    Then the focused option and all options up to the first option are selected
+    And optionally, focus may move to the first option
     When I press 'Control + Shift + End'
-    Then focus moves to the last option, the selection of all options between the focus and the last option is unchanged, and all other options below become selected
+    Then the focused option and all options down to the last option are selected
+    And optionally, focus may move to the last option
 
-  Scenario: Select All in a Multi-Select Listbox
+  Scenario: Select All in a Multi-Select Listbox (Optional)
     Given a multi-select listbox is present
     When I press 'Control + A'
     Then all options in the listbox should be selected
-    And if all options are already selected, all options should be deselected
+    And optionally, if all options are already selected, all options may be deselected
 
   Scenario: Type-Ahead Feature in Listboxes
     Given a listbox is present with more than seven options
@@ -83,6 +83,12 @@ Feature: Listbox Interaction and Accessibility
     And selected options should have 'aria-selected' set to true
     And selectable but not selected options should have 'aria-selected' set to false
     And options that are not selectable should not have 'aria-selected' set
+
+  Scenario: WAI-ARIA Roles, States, and Properties for Grouped Options
+    Given a listbox contains grouped options
+    Then each option group should have a role of 'group' contained in or owned by the element with role 'listbox'
+    And each option group should contain at least one option
+    And each option group should have an accessible name provided via 'aria-label' or 'aria-labelledby'
 
   Scenario: Multi-Select Listbox ARIA Properties
     Given a multi-select listbox is present

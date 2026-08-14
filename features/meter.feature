@@ -10,7 +10,8 @@ Feature: Meter Display and Accessibility
 
   Scenario: Displaying Current Value of the Meter
     Given the meter represents a numeric value within a defined range
-    Then the meter should have aria-valuenow set to a decimal value representing the current value
+    Then the element serving as the meter should have a role of meter
+    And the meter should have aria-valuenow set to a decimal value representing the current value
     And the current value should be between aria-valuemin and aria-valuemax
 
   Scenario: Setting Minimum and Maximum Values of the Meter

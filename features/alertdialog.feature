@@ -10,6 +10,7 @@ Feature: Alert Dialog
   Scenario: Alert Dialog Role and Properties
     Then the alert dialog should have a role of 'alertdialog'
     And it should contain elements including the alert message and dialog buttons
+    And the dialog container element should have 'aria-modal' set to true
 
   Scenario: Labeling the Alert Dialog
     Given the alert dialog has a visible label

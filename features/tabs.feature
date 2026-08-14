@@ -25,9 +25,9 @@ Feature: Tabs Interface Interaction and Accessibility
     And if focus is on the last tab, it should move to the first tab
     When I press 'Space' or 'Enter'
     Then the focused tab should be activated
-    When I press 'Home'
+    When I press 'Home' (optional)
     Then focus should move to the first tab
-    When I press 'End'
+    When I press 'End' (optional)
     Then focus should move to the last tab
 
   Scenario: Optional Vertical Orientation of the Tab List
@@ -42,14 +42,17 @@ Feature: Tabs Interface Interaction and Accessibility
     When focus moves into the tab list
     Then it should place focus on the active tab element
     And when moving focus out of the tablist, it should go to the tabpanel
+    And if the tabpanel does not contain any focusable elements, it should have 'tabindex' set to 0 so it is included in the page tab sequence
 
   Scenario: WAI-ARIA Roles, States, and Properties of Tabs
     Given a tabs interface is present on the page
     Then the container for the set of tabs should have role 'tablist'
     And each tab should have role 'tab' and property 'aria-controls' referring to its associated tabpanel
     And each tabpanel should have role 'tabpanel' and property 'aria-labelledby' referring to its associated tab
-    And the active tab should have state 'aria-selected' set to true
+    And the active tab should have state 'aria-selected' set to true and all other tabs should have it set to false
     And if the tablist has a visible label, it should be referenced by 'aria-labelledby' or have 'aria-label'
+    And if a tab has a popup menu, it should have property 'aria-haspopup' set to 'menu' or true
+    And if the tablist is vertically oriented, it should have property 'aria-orientation' set to 'vertical'
 
   Scenario: Additional Keyboard Interactions for Tabs
     Given the tab list is in focus

@@ -14,14 +14,15 @@ Feature: Treegrid Interaction and Accessibility
     Then it should open or close child rows if focused on a collapsible cell
     When I press 'Tab'
     Then focus should move to the next focusable element within the row
+    And if focus is on the last focusable element in the row, focus should move out of the treegrid to the next focusable element
     When I press 'Right Arrow'
     Then focus should move to the right cell or expand the row if applicable
     When I press 'Left Arrow'
     Then focus should move to the left cell or collapse the row if applicable
     When I press 'Down Arrow'
-    Then focus should move one row down
+    Then focus should move one row or cell down
     When I press 'Up Arrow'
-    Then focus should move one row up
+    Then focus should move one row or cell up
     When I press 'Page Down'
     Then focus should move down a set number of rows
     When I press 'Page Up'
@@ -37,7 +38,7 @@ Feature: Treegrid Interaction and Accessibility
 
   Scenario: Selecting Items in the Treegrid
     Given the treegrid supports selection
-    When I use selection keys like 'Control + Space' or 'Shift + Space'
+    When I use selection keys like 'Control + Space', 'Shift + Space', 'Control + A', or 'Shift + Arrow Keys'
     Then it should select rows, cells, or columns as per the treegrid's functionality
 
   Scenario: WAI-ARIA Roles, States, and Properties of the Treegrid
@@ -45,5 +46,6 @@ Feature: Treegrid Interaction and Accessibility
     Then the treegrid container should have role 'treegrid'
     And each row should have role 'row'
     And each cell should have appropriate roles ('columnheader', 'rowheader', 'gridcell')
-    And parent rows should have 'aria-expanded' set as per their state
+    And parent rows should have 'aria-expanded' set as per their state, on either the row element or a cell contained in the row
+    And rows that do not control the display of child rows should not have the 'aria-expanded' attribute
     And 'aria-selected', 'aria-multiselectable', 'aria-labelledby', 'aria-label', 'aria-describedby', 'aria-sort', 'aria-readonly', 'aria-colcount', 'aria-rowcount', 'aria-colindex', 'aria-rowindex', 'aria-rowspan', 'aria-colspan' should be used as per the treegrid's features

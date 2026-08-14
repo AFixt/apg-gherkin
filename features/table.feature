@@ -12,12 +12,16 @@ Feature: Table Display and Accessibility
     Given the table is a static structure
     Then the table container should have role 'table'
     And each row container should have role 'row'
+    And each row should be a DOM descendant of, or owned by, the table element or an element with role 'rowgroup'
+    And each cell should be a DOM descendant of, or owned by, a row element
     And each cell should have role 'columnheader', 'rowheader', or 'cell' based on its content
 
   Scenario: Labelling and Describing the Table
     Given the table has an associated label or description
     When the table has a visible label
     Then 'aria-labelledby' should be set on the table with a value referring to the label element
+    When the table has no element in the user interface serving as its label
+    Then a label should be specified for the table with 'aria-label'
     When the table has a caption or description
     Then 'aria-describedby' should be set on the table with a value referring to the description element
 

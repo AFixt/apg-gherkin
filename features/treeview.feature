@@ -13,6 +13,7 @@ Feature: Tree View Interaction and Accessibility
     When the tree view receives focus
     Then focus should be set on the first node if none are selected
     And focus should be set on the selected node if one is already selected
+    And in a multi-select tree, focus should be set on the first selected node if one or more nodes are selected
 
   Scenario: Keyboard Navigation in the Tree View
     Given the tree view allows keyboard navigation
@@ -28,6 +29,8 @@ Feature: Tree View Interaction and Accessibility
     Then focus should move to the first node
     When I press 'End'
     Then focus should move to the last node
+    When I press 'Enter'
+    Then the focused node should be activated, performing its default action
 
   Scenario: Type-Ahead Functionality in the Tree View
     Given the tree view has type-ahead functionality
@@ -50,5 +53,7 @@ Feature: Tree View Interaction and Accessibility
     Given a tree view is present on the page
     Then the tree container should have role 'tree'
     And each tree node should have role 'treeitem'
+    And each parent node should contain or own an element with role 'group' that contains its child nodes
     And parent nodes should have 'aria-expanded' set as per their state
+    And end nodes should not have the 'aria-expanded' attribute
     And 'aria-multiselectable', 'aria-selected', 'aria-checked', 'aria-labelledby', 'aria-label', 'aria-level', 'aria-setsize', 'aria-posinset', 'aria-orientation' should be used as per the tree view's features

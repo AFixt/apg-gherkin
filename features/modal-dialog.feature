@@ -31,6 +31,7 @@ Feature: Modal Dialog Accessibility and Interaction
   Scenario: ARIA Roles, States, and Properties of the Modal Dialog
     Given the modal dialog is implemented
     Then the dialog container should have a role of 'dialog'
+    And all elements required to operate the dialog should be descendants of the element with role 'dialog'
     And the dialog should have 'aria-modal' set to true
     And the dialog should have 'aria-labelledby' or 'aria-label' set
     Optionally, 'aria-describedby' may be set depending on content complexity
