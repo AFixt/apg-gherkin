@@ -1,3 +1,7 @@
+# NOTE: This is an AFixt extension, not an APG pattern. The APG pattern index
+# publishes only Dialog (Modal); the normative statements about non-modal dialogs
+# appear in the About section of that pattern's page. Scenarios here are derived
+# from those statements and from the Dialog (Modal) pattern where it applies.
 Feature: Non-Modal Dialog Interaction and Accessibility
 
   As a user of a website
@@ -6,7 +10,7 @@ Feature: Non-Modal Dialog Interaction and Accessibility
 
   Background:
     Given a non-modal dialog is implemented on a web page
-    And the dialog conforms to the Dialog Pattern guidelines
+    And the dialog conforms to the Dialog (Modal) Pattern guidelines except where they are specific to modality
 
   Scenario: Opening the Non-Modal Dialog
     Given a trigger element for the dialog is present
@@ -24,11 +28,17 @@ Feature: Non-Modal Dialog Interaction and Accessibility
   Scenario: Keyboard Interaction - Tab Within Dialog
     Given the non-modal dialog is open
     When I press 'Tab'
-    Then focus should move to the next focusable element
-    And if the last focusable element in the dialog is reached, focus should move to the next focusable element in the page after the dialog
+    Then focus should move to the next focusable element in the dialog
+    And if the last focusable element in the dialog is reached, focus should move to the first focusable element in the dialog
     When I press 'Shift + Tab'
-    Then focus should move to the previous focusable element
-    And if the first focusable element in the dialog is reached, focus should move to the previous focusable element in the page before the dialog
+    Then focus should move to the previous focusable element in the dialog
+    And if the first focusable element in the dialog is reached, focus should move to the last focusable element in the dialog
+
+  Scenario: Moving Focus Out of the Non-Modal Dialog Without Closing It
+    Given the non-modal dialog is open
+    Then the dialog should provide a means of moving keyboard focus outside the dialog without closing it
+    And that means should be something other than 'Tab' or 'Shift + Tab', since the dialog contains its own tab sequence
+    And the dialog should remain open when focus moves outside it
 
   Scenario: Closing the Non-Modal Dialog with Escape
     Given the non-modal dialog is open

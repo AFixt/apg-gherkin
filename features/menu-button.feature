@@ -10,7 +10,15 @@ Feature: Menu Button Interaction and Accessibility
 
   Scenario: Opening and Closing the Menu
     Given the menu button is focusable
-    When I click on the menu button or press 'Enter' or 'Space' when focused
+    When I press 'Enter' with focus on the button
+    Then the menu should open and focus should be placed on the first menu item
+    When I press 'Space' with focus on the button
+    Then the menu should open and focus should be placed on the first menu item
+    When I press 'Down Arrow' with focus on the button (Optional)
+    Then the menu should open and focus should move to the first menu item
+    When I press 'Up Arrow' with focus on the button (Optional)
+    Then the menu should open and focus should move to the last menu item
+    When I click on the menu button
     Then the associated dropdown menu should appear
     And when I click outside the menu or press 'Escape' while it's open
     Then the dropdown menu should close

@@ -8,21 +8,46 @@ Feature: Treegrid Interaction and Accessibility
     Given a treegrid is implemented on a web page
     And the treegrid conforms to the WAI-ARIA Treegrid Pattern guidelines
 
+  Scenario: Focus Model on Entering the Treegrid
+    Given focus is moving into the treegrid
+    Then focus should land on either the first cell or the first row
+    And whether focus goes to a cell or to a row depends on author preference and on whether row focus is supported
+
+  Scenario: Row Focus
+    Given the treegrid supports row focus and focus is on a row
+    When I press 'Right Arrow' on a collapsed row
+    Then the row should expand
+    When I press 'Right Arrow' on an expanded row
+    Then focus should move to the first cell in the row
+    When I press 'Left Arrow' on an expanded row
+    Then the row should collapse
+    When I press 'Left Arrow' on a collapsed or end row
+    Then focus should move to the parent row
+    When I press 'Down Arrow'
+    Then focus should move to the next visible row
+    When I press 'Up Arrow'
+    Then focus should move to the previous visible row
+
+  Scenario: Cell Focus
+    Given focus is on a cell within a row
+    When I press 'Right Arrow'
+    Then focus should move to the next cell in the row
+    When I press 'Left Arrow' on the first cell in a row
+    Then focus should move to the row, if row focus is supported
+    When I press 'Down Arrow'
+    Then focus should move to the cell in the same column in the next visible row
+    When I press 'Up Arrow'
+    Then focus should move to the cell in the same column in the previous visible row
+
   Scenario: Navigating and Interacting with the Treegrid
     Given the treegrid allows navigation and interaction
-    When I press 'Enter'
-    Then it should open or close child rows if focused on a collapsible cell
+    When I press 'Enter' and cell-only focus is enabled and focus is on the first cell with the 'aria-expanded' property
+    Then it should open or close the child rows
+    When I press 'Enter' in any other circumstance
+    Then it should perform the default action for the cell
     When I press 'Tab'
     Then focus should move to the next focusable element within the row
     And if focus is on the last focusable element in the row, focus should move out of the treegrid to the next focusable element
-    When I press 'Right Arrow'
-    Then focus should move to the right cell or expand the row if applicable
-    When I press 'Left Arrow'
-    Then focus should move to the left cell or collapse the row if applicable
-    When I press 'Down Arrow'
-    Then focus should move one row or cell down
-    When I press 'Up Arrow'
-    Then focus should move one row or cell up
     When I press 'Page Down'
     Then focus should move down a set number of rows
     When I press 'Page Up'
@@ -38,14 +63,35 @@ Feature: Treegrid Interaction and Accessibility
 
   Scenario: Selecting Items in the Treegrid
     Given the treegrid supports selection
-    When I use selection keys like 'Control + Space', 'Shift + Space', 'Control + A', or 'Shift + Arrow Keys'
-    Then it should select rows, cells, or columns as per the treegrid's functionality
+    When I press 'Control + Space'
+    Then the column containing the focused cell should be selected
+    When I press 'Shift + Space'
+    Then the row containing the focused cell should be selected
+    When I press 'Shift + Down Arrow' or 'Shift + Up Arrow'
+    Then selection should extend to the cell or row in that direction
+    When I press 'Shift + Right Arrow' or 'Shift + Left Arrow'
+    Then selection should extend to the cell in that direction
+    When I press 'Control + A' (Optional)
+    Then all cells or rows in the treegrid should be selected
+
+  Scenario: aria-selected in a Single-Select Treegrid
+    Given a single-select treegrid is present on the page
+    Then 'aria-selected' should be set to true on the selected row or cell
+    And 'aria-selected' should not be present on any other row or cell in the treegrid
+
+  Scenario: aria-selected in a Multi-Select Treegrid
+    Given a multi-select treegrid is present on the page
+    Then the treegrid should have 'aria-multiselectable' set to true
+    And all selected rows or cells should have 'aria-selected' set to true
+    And all rows and cells that are not selected should have 'aria-selected' set to false
 
   Scenario: WAI-ARIA Roles, States, and Properties of the Treegrid
     Given a treegrid is present on the page
     Then the treegrid container should have role 'treegrid'
     And each row should have role 'row'
+    And each row should be either a DOM descendant of or owned by the element with role 'treegrid' or an element with role 'rowgroup'
+    And any element with role 'rowgroup' should itself be contained in or owned by the treegrid
     And each cell should have appropriate roles ('columnheader', 'rowheader', 'gridcell')
     And parent rows should have 'aria-expanded' set as per their state, on either the row element or a cell contained in the row
     And rows that do not control the display of child rows should not have the 'aria-expanded' attribute
-    And 'aria-selected', 'aria-multiselectable', 'aria-labelledby', 'aria-label', 'aria-describedby', 'aria-sort', 'aria-readonly', 'aria-colcount', 'aria-rowcount', 'aria-colindex', 'aria-rowindex', 'aria-rowspan', 'aria-colspan' should be used as per the treegrid's features
+    And 'aria-labelledby', 'aria-label', 'aria-describedby', 'aria-sort', 'aria-readonly', 'aria-colcount', 'aria-rowcount', 'aria-colindex', 'aria-rowindex', 'aria-rowspan', 'aria-colspan' should be used as per the treegrid's features

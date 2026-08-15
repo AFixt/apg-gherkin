@@ -16,7 +16,8 @@ Feature: Checkbox Interaction and Accessibility
   Scenario: Interacting with a Tri-State Checkbox
     Given the checkbox is tri-state
     When I focus on the checkbox and press the Space key
-    Then the state of the checkbox should cycle through checked, partially checked, and not checked
+    Then the state of the checkbox should change
+    Optionally, where the implementation remembers which options were checked the last time the overall status was partially checked, activating the checkbox a third time may recreate that partially checked state
 
   Scenario: Displaying Checkbox States
     Given a group of checkboxes is controlled by a tri-state checkbox

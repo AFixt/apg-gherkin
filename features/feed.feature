@@ -14,7 +14,10 @@ Feature: Feed Interaction and Accessibility
     Then new articles should automatically load into the feed
     And the feed should handle visual scrolling based on the focused article
 
-  Scenario: Keyboard Navigation Within the Feed
+  # The feed pattern is not based on a desktop GUI widget, so the 'feed' role is not
+  # associated with any well-established keyboard conventions. The APG only
+  # recommends supporting the following, or a similar, interface.
+  Scenario: Keyboard Navigation Within the Feed (Recommended)
     Given the feed allows keyboard navigation
     When I press 'Page Down'
     Then focus should move to the next article

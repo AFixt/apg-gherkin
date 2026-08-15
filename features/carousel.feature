@@ -34,6 +34,7 @@ Feature: Carousel Interaction and Accessibility
     Given a carousel is present on the page
     Then the carousel container should have role 'region' or 'group' and 'aria-roledescription' set to 'carousel'
     And the carousel container should have an accessible name provided by 'aria-labelledby' or 'aria-label'
+    And the accessible name of the carousel container should not contain the word 'carousel', since 'aria-roledescription' already supplies it
     And each slide should have role 'group' or 'tabpanel' with 'aria-roledescription' set to 'slide'
     And each slide should have an accessible name provided by 'aria-labelledby' or 'aria-label'
     And rotation control, next slide control, and previous slide control should implement the button pattern
@@ -45,11 +46,23 @@ Feature: Carousel Interaction and Accessibility
     Then the corresponding slide should be displayed
     And the picker control for the currently displayed slide should have 'aria-disabled' set to true
 
-  Scenario: Additional Carousel Types
-    Given a carousel with tabbed or grouped elements
-    Then the carousel should follow the specific ARIA roles, states, and properties for its type
-    And tabbed carousel elements should follow the tabs pattern
-    And grouped carousel elements should have picker controls with appropriate ARIA attributes
+  Scenario: Tabbed Carousel
+    Given a tabbed carousel is present on the page
+    Then each slide container should have role 'tabpanel' instead of role 'group'
+    And each slide container should not have the 'aria-roledescription' property
+    And each slide picker control should be a 'tab' element that displays its associated slide when activated
+    And the accessible name of each 'tab' should indicate which slide it will display by including the name or number of the slide, for example 'Slide 3'
+    And the set of controls should be grouped in a 'tablist' element
+    And the 'tablist' should have an accessible name provided by 'aria-label' that identifies the purpose of the tabs, for example 'Choose slide to display'
+    And the 'tab' elements should implement the properties specified in the Tabs Pattern
+
+  Scenario: Grouped Carousel
+    Given a grouped carousel is present on the page
+    Then the set of slide picker controls should be contained in an element with role 'group'
+    And the group containing the picker controls should have an accessible label provided by 'aria-label' that identifies the purpose of the controls, for example 'Choose slide to display'
+    And each picker control should be a 'button' element
+    And the accessible name of each picker button should match the name of the slide it displays
+    And the picker button for the currently displayed slide should have 'aria-disabled' set to true
 
   Scenario: Automatic Rotation Control
     Given the carousel has automatic rotation

@@ -18,6 +18,46 @@ Below, you'll find our guidelines for contributing to this repository. Your invo
 
 7. **Merge**: Once your pull request is approved, a maintainer will merge it into the `develop` branch.
 
+## House Style for Feature Files
+
+Please read this before editing anything in `features/`.
+
+### The files are Gherkin-flavored prose, not runnable Gherkin
+
+These files are a human-readable specification of the APG patterns. They are **not**
+guaranteed to parse with a Gherkin parser or run under a Cucumber-family runner. The
+corpus deliberately uses constructs standard Gherkin does not accept:
+
+- `Examples:` tables under a plain `Scenario:` rather than a `Scenario Outline:` with `<placeholder>` substitution.
+- `If ...`, `Optionally, ...`, `Otherwise, ...` and `Or ...` as step keywords. Gherkin recognizes only `Given`/`When`/`Then`/`And`/`But`/`*`.
+- Prose steps that begin with a reserved keyword.
+
+Downstream AFixt repos (apg-nightwatch, apg-jasmine, apg-jest, apg-cypress, apg-mocha,
+apg-playwright) and apg-usecases consume this corpus as their canonical pattern list and are
+expected to translate it rather than execute it. Please don't submit PRs converting these
+constructs to valid Gherkin — that's a settled decision, and reversing it should start as an
+issue, not a PR.
+
+### Mark optional behavior explicitly
+
+The corpus documents both required and optional behavior. Anything the APG marks `(Optional)`,
+calls "recommended", or states only in a pattern's *example* rather than its normative
+keyboard/properties table must be marked. Unmarked steps read as requirements.
+
+- Mark a step with a trailing `(Optional)`, or open it with `Optionally, ...`.
+- Mark a whole scenario by appending `(Optional)` or `(Recommended)` to its name.
+- If the behavior comes from an APG example rather than the pattern, add a `#` comment above the steps saying so.
+
+### Cover both alternative interaction models
+
+Where the APG offers two co-equal models an author chooses between, cover both in separate,
+clearly named scenarios rather than collapsing them into one vague step.
+
+### Cite the APG
+
+Every scenario should be traceable to text on the relevant APG pattern page. If you can't
+point at the sentence it came from, it doesn't belong in the file.
+
 ## Logging Issues
 
 If you're not comfortable with Git or coding, you can still contribute significantly by logging issues. Whether it's a bug you've found or a feature suggestion, your feedback is valuable.

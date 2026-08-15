@@ -12,7 +12,7 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 * [Carousel](features/carousel.feature)
 * [Checkbox](features/checkbox.feature)
 * [Combobox](features/combobox.feature)
-* [Dialog (Non-Modal)](features/dialog-non-modal.feature)
+* [Dialog (Non-Modal)](features/dialog-non-modal.feature) †
 * [Disclosure](features/disclosure.feature)
 * [Feed](features/feed.feature)
 * [Grid](features/grid.feature)
@@ -35,6 +35,27 @@ Patterns from the ARIA Authoring Practices Guide (APG), written as Gherkin Featu
 * [Treegrid](features/treegrid.feature)
 * [Treeview](features/treeview.feature)
 * [Window Splitter](features/window-splitter.feature)
+
+† Not an APG pattern. The APG publishes only Dialog (Modal); this file is an AFixt extension
+built from the normative statements about non-modal dialogs in that pattern's About section.
+
+## These files are Gherkin-flavored prose, not runnable Gherkin
+
+This corpus is a human-readable specification of the APG patterns. It is **not** guaranteed to
+parse with a Gherkin parser or to run under a Cucumber-family runner, and it uses several
+constructs standard Gherkin does not accept (`Examples:` under a plain `Scenario:`, and
+`If` / `Optionally,` / `Otherwise,` / `Or` used as step keywords).
+
+If you are consuming this repository as a pattern list — as apg-nightwatch, apg-jasmine,
+apg-jest, apg-cypress, apg-mocha, apg-playwright and apg-usecases do — plan to translate these
+files rather than execute them. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full house style.
+
+## Required vs. optional behavior
+
+The features document both required and optional behavior. Anything the APG marks `(Optional)`,
+calls "recommended", or states only in a pattern's example rather than its normative tables is
+marked — with a trailing `(Optional)` on the step, an `Optionally, ...` opener, or an
+`(Optional)` / `(Recommended)` suffix on the scenario name. Unmarked steps are requirements.
 
 ## Note
 

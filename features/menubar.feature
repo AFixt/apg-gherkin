@@ -12,7 +12,9 @@ Feature: Menubar Interaction and Accessibility
     Given the menubar is focusable
     When I press 'Tab' or 'Shift + Tab'
     Then focus should move into and out of the menubar
-    And when I press 'Enter' or 'Space' on a menuitem with a submenu
+    And when I press 'Enter' on a menuitem with a submenu
+    Then the submenu should open and focus should move to the first item in the submenu
+    And optionally, when I press 'Space' on a menuitem with a submenu
     Then the submenu should open and focus should move to the first item in the submenu
     And when I press 'Down Arrow' on a menubar menuitem that has a submenu
     Then the submenu should open and focus should move to the first item in the submenu
@@ -30,9 +32,9 @@ Feature: Menubar Interaction and Accessibility
     Then the submenu should open and focus should move to its first item
     And when I press 'Left Arrow' in a submenu of an item in a menu
     Then the submenu should close and focus should return to the parent menuitem
-    And when I press 'Home' in the menubar
+    And when I press 'Home' in the menubar and arrow key wrapping is not supported
     Then focus should move to the first item
-    And when I press 'End' in the menubar
+    And when I press 'End' in the menubar and arrow key wrapping is not supported
     Then focus should move to the last item
     And when I press 'Escape' while a menu is open
     Then the menu should close and focus should return to the menubar
@@ -54,8 +56,27 @@ Feature: Menubar Interaction and Accessibility
 
   Scenario: Selecting Menu Items with Keyboard
     Given a menu is open
-    When I navigate to a menu item and press 'Enter' or 'Space'
+    When I navigate to a menuitem without a submenu and press 'Enter'
     Then the menu item should be activated
     And the menu should close
-    And when I press printable characters
-    Then focus should move to the next item whose label begins with that character
+    When I press any printable character (Optional)
+    Then focus should move to the next item in the current menu whose label begins with that printable character
+
+  Scenario: Activating Menu Items with Space (Optional)
+    Given a menu is open
+    When I press 'Space' on a menuitem without a submenu
+    Then the menu item should be activated
+    And the menu should close
+    When I press 'Space' on a 'menuitemcheckbox'
+    Then its checked state should toggle
+    And the menu should not close
+    When I press 'Space' on a 'menuitemradio'
+    Then it should be checked and the other radio items in its group should be unchecked
+    And the menu should not close
+
+  Scenario: Focus Management within the Menubar
+    Given a menubar is present on the page
+    Then focus should be managed by one of the two mechanisms the APG allows
+    And under the first mechanism, the menu container should have 'tabindex' set to '-1' or '0' and 'aria-activedescendant' set to the ID of the focused item
+    Or under the second mechanism, each item in the menu should have 'tabindex' set to '-1', except in a menubar where the first item should have 'tabindex' set to '0'
+    And whichever mechanism is used, only one element of the menubar should be in the page tab sequence at a time
