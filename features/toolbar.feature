@@ -23,9 +23,9 @@ Feature: Toolbar Interaction and Accessibility
     When I press 'Right Arrow'
     Then focus should move to the next control
     And focus movement may optionally wrap from the last to the first element
-    When I press 'Home' (optional)
+    When I press 'Home' (Optional)
     Then focus should move to the first element
-    When I press 'End' (optional)
+    When I press 'End' (Optional)
     Then focus should move to the last element
 
   Scenario: Navigating Between Controls in a Vertical Toolbar

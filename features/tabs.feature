@@ -23,9 +23,9 @@ Feature: Tabs Interface Interaction and Accessibility
     When I press 'Right Arrow'
     Then focus should move to the next tab
     And if focus is on the last tab, it should move to the first tab
-    When I press 'Home' (optional)
+    When I press 'Home' (Optional)
     Then focus should move to the first tab
-    When I press 'End' (optional)
+    When I press 'End' (Optional)
     Then focus should move to the last tab
 
   # The APG defines two activation models. Automatic activation is the recommended

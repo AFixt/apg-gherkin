@@ -30,14 +30,14 @@ Feature: Window Splitter Interaction and Accessibility
 
   Scenario: Moving Splitter to Minimum and Maximum Positions
     Given the window splitter is focusable
-    When I press 'Home' (optional)
+    When I press 'Home' (Optional)
     Then the splitter should move to the position that gives the primary pane its smallest allowed size
-    When I press 'End' (optional)
+    When I press 'End' (Optional)
     Then the splitter should move to the position that gives the primary pane its largest allowed size
 
   Scenario: Cycling Through Window Panes
     Given the window splitter is part of multiple window panes
-    When I press 'F6' (optional)
+    When I press 'F6' (Optional)
     Then the focus should cycle through the window panes
 
   Scenario: WAI-ARIA Roles, States, and Properties of the Window Splitter
