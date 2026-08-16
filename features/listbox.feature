@@ -115,6 +115,12 @@ Feature: Listbox Interaction and Accessibility
     And each option group should contain at least one option
     And each option group should have an accessible name provided via 'aria-label' or 'aria-labelledby'
 
+  Scenario: WAI-ARIA Roles, States, and Properties for Grouped Options
+    Given a listbox contains grouped options
+    Then each option group should have a role of 'group' contained in or owned by the element with role 'listbox'
+    And each option group should contain at least one option
+    And each option group should have an accessible name provided via 'aria-label' or 'aria-labelledby'
+
   Scenario: Multi-Select Listbox ARIA Properties
     Given a multi-select listbox is present
     Then the listbox element should have 'aria-multiselectable' set to true
