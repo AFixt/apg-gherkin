@@ -31,6 +31,13 @@ Feature: Landmarks Navigation and Accessibility
     Then each landmark of the same type should have a unique accessible name
     And the accessible name should be provided via 'aria-labelledby' or 'aria-label'
 
+  Scenario: Labeling Form Landmarks
+    Given a 'form' landmark is present
+    Then an HTML 'form' element should be exposed as a 'form' landmark only when it has an accessible name
+    And the 'form' landmark should have a label that helps users understand the purpose of the form
+    And the label should be provided via 'aria-labelledby' or 'aria-label'
+    Optionally, the label should be visible to all users, for example by referencing a heading element with 'aria-labelledby'
+
   Scenario: Labeling Region Landmarks
     Given a 'region' landmark is present
     Then it must have an accessible name via 'aria-labelledby' or 'aria-label'
@@ -41,11 +48,24 @@ Feature: Landmarks Navigation and Accessibility
     Then screen reader users should be able to navigate between landmarks
     And each landmark should provide a meaningful label to aid orientation
 
+  Scenario: Top-Level Landmarks
+    Given a web page has landmark regions
+    Then the 'banner' landmark should be a top-level landmark, not contained within any other landmark
+    And the 'main' landmark should be a top-level landmark, not contained within any other landmark
+    And the 'complementary' landmark should be a top-level landmark, not contained within any other landmark
+    And the 'contentinfo' landmark should be a top-level landmark, not contained within any other landmark
+
   Scenario: Nesting Landmarks
     Given landmarks are nested within other landmarks
     Then nested landmarks should be logical children of their parent landmark
-    And 'banner' and 'contentinfo' landmarks nested inside 'main' should refer to the 'main' region content
     And each nested landmark should still be accessible via landmark navigation
+    And a 'navigation', 'search', 'form' or 'region' landmark may be nested inside another landmark where it describes a section of that landmark's content
+
+  Scenario: Scoped header and footer Elements Do Not Map to Landmarks
+    Given a page contains 'header' or 'footer' elements
+    Then a 'header' element should map to the 'banner' landmark only when its nearest ancestor sectioning content is the 'body' element
+    And a 'footer' element should map to the 'contentinfo' landmark only when its nearest ancestor sectioning content is the 'body' element
+    And a 'header' or 'footer' scoped inside 'article', 'aside', 'main', 'nav' or 'section' should not be exposed as a landmark
 
   Scenario: All Content Within Landmarks
     Given a web page uses landmark regions

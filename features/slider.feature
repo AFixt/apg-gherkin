@@ -15,13 +15,14 @@ Feature: Slider Interaction and Accessibility
     When I press 'Left Arrow' or 'Down Arrow'
     Then the slider value should decrease by one step
     When I press 'Home'
-    Then the slider should set to its minimum value
+    Then the slider should set to the first allowed value in its range
     When I press 'End'
-    Then the slider should set to its maximum value
+    Then the slider should set to the last allowed value in its range
     When I press 'Page Up' (Optional)
     Then the slider value should increase by a larger step than the arrow keys
     When I press 'Page Down' (Optional)
     Then the slider value should decrease by a larger step than the arrow keys
+    Optionally, the direction of the value change for the keys above may be reversed, for example having 'Up Arrow' decrease the value, where that creates a more intuitive experience
 
   Scenario: Accessibility Features of the Slider
     Given a slider is present on the page

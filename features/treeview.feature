@@ -44,10 +44,55 @@ Feature: Tree View Interaction and Accessibility
     When I press '*'
     Then it should expand all siblings at the same level as the current node
 
-  Scenario: Selection Models in Multi-Select Trees
+  # The APG defines two multi-select interaction models for trees and presents them
+  # as an author's choice. The first, below, is the recommended model and does not
+  # require modifier keys. The alternative model requires modifier keys to maintain
+  # a selection. An implementation adopts one model or the other.
+  Scenario: Multi-Select Tree - Recommended Model
     Given the tree view is multi-select
-    When I use selection keys like 'Space', 'Shift + Arrow Keys', or 'Control + A'
-    Then it should select or unselect nodes as per the tree view's functionality
+    And the tree uses the recommended model that does not require modifier keys
+    When I press 'Space'
+    Then the selection state of the focused node should toggle
+    When I press 'Shift + Down Arrow' (Optional)
+    Then focus should move to the next node and its selection state should toggle
+    When I press 'Shift + Up Arrow' (Optional)
+    Then focus should move to the previous node and its selection state should toggle
+    When I press 'Shift + Space' (Optional)
+    Then contiguous nodes from the most recently selected node to the focused node should be selected
+    When I press 'Control + Shift + Home' (Optional)
+    Then the focused node and all nodes up to the first node should be selected
+    When I press 'Control + Shift + End' (Optional)
+    Then the focused node and all nodes down to the last node should be selected
+    When I press 'Control + A' (Optional)
+    Then all nodes in the tree should be selected
+
+  Scenario: Multi-Select Tree - Alternative Model
+    Given the tree view is multi-select
+    And the tree uses the alternative model that requires modifier keys to maintain a selection
+    When I press 'Down Arrow' or 'Up Arrow' without a modifier key
+    Then focus should move to that node
+    And all selected nodes except the focused node should become unselected
+    When I press 'Control + Down Arrow'
+    Then focus should move to the next node without changing the selection state of any node
+    When I press 'Control + Up Arrow'
+    Then focus should move to the previous node without changing the selection state of any node
+    When I press 'Control + Space'
+    Then the selection state of the focused node should toggle
+    When I press 'Shift + Down Arrow'
+    Then focus should move to the next node and its selection state should toggle
+    When I press 'Shift + Up Arrow'
+    Then focus should move to the previous node and its selection state should toggle
+    When I press 'Shift + Space'
+    Then contiguous nodes from the most recently selected node to the focused node should be selected
+    When I press 'Control + Shift + Home'
+    Then the focused node and all nodes up to the first node should be selected
+    When I press 'Control + Shift + End'
+    Then the focused node and all nodes down to the last node should be selected
+
+  Scenario: Focus and Selection Are Distinct
+    Given the tree view is present on the page
+    Then DOM focus and selection state should remain functionally distinct
+    And the two should coincide only where the tree implements selection following focus
 
   Scenario: WAI-ARIA Roles, States, and Properties of the Tree View
     Given a tree view is present on the page

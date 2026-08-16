@@ -31,11 +31,11 @@ Feature: Radio Group Interaction and Accessibility
     And when focus is on the first radio button in the group, 'Left Arrow' moves focus to the previous element in the toolbar
     When I press 'Space'
     Then the focused radio button should be checked, unchecking the currently checked radio button
-    When I press 'Enter' (optional)
+    When I press 'Enter' (Optional)
     Then the focused radio button should be checked, unchecking the currently checked radio button
-    When I press 'Down Arrow' (optional)
+    When I press 'Down Arrow' (Optional)
     Then focus moves to the next radio button in the radio group
-    When I press 'Up Arrow' (optional)
+    When I press 'Up Arrow' (Optional)
     Then focus moves to the previous radio button in the radio group
 
   Scenario: WAI-ARIA Roles, States, and Properties of Radio Group

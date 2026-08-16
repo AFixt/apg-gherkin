@@ -24,13 +24,16 @@ Feature: Accordion Interaction and Accessibility
     Then focus should move to the next focusable element in the accordion
     When I press 'Shift + Tab'
     Then focus should move to the previous focusable element in the accordion
-    When I press 'Down Arrow' and focus is on an accordion header
+    # The APG Accordion pattern's keyboard table lists only Enter/Space, Tab and
+    # Shift + Tab. The four keys below appear only in the APG's accordion example,
+    # as optional enhancements, so they are marked (Optional) here.
+    When I press 'Down Arrow' and focus is on an accordion header (Optional)
     Then focus should move to the next accordion header
-    When I press 'Up Arrow' and focus is on an accordion header
+    When I press 'Up Arrow' and focus is on an accordion header (Optional)
     Then focus should move to the previous accordion header
-    When I press 'Home' and focus is on an accordion header
+    When I press 'Home' and focus is on an accordion header (Optional)
     Then focus should move to the first accordion header
-    When I press 'End' and focus is on an accordion header
+    When I press 'End' and focus is on an accordion header (Optional)
     Then focus should move to the last accordion header
 
   Scenario: ARIA Roles, States, and Properties of Accordion Elements

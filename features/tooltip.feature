@@ -1,3 +1,7 @@
+# NOTE: The APG Tooltip page is explicitly labelled work-in-progress and has not
+# reached task force consensus, so this pattern is expected to churn. Scenarios
+# here are limited to what that page currently states; anything not sourced from
+# it has been removed rather than inferred.
 Feature: Tooltip Display and Accessibility
 
   As a user of the website
@@ -28,22 +32,9 @@ Feature: Tooltip Display and Accessibility
     Given a tooltip is associated with an element
     Then the tooltip should have role="tooltip"
     And the owning element should reference the tooltip with 'aria-describedby'
-    And the tooltip should not contain any interactive content
     And the tooltip should not receive focus or be in the tabbing order
 
-  Scenario: Tooltip Visibility and Positioning
-    Given a tooltip is associated with an element
-    When the tooltip is triggered to appear
-    Then it should be positioned appropriately relative to the owning element
-    And should be styled for visibility
-
-  Scenario: Implementing Tooltip with JavaScript and CSS
-    Given a tooltip is implemented using JavaScript and CSS
-    Then JavaScript should handle the display and hiding of the tooltip
-    And CSS should define the tooltip's visibility and positioning
-    And the tooltip should be hidden by default unless triggered by focus or hover
-
-  Scenario: Accessibility Concerns with Tooltip Information
-    Given a tooltip contains important information
-    Then consider whether this information should also be available as visible text
-    And ensure the tooltip follows accessibility guidelines to remain persistent when needed
+  Scenario: Choosing Between a Tooltip and a Non-Modal Dialog
+    Given a popup needs to contain focusable content
+    Then the tooltip pattern should not be used for it
+    And the non-modal dialog pattern should be used instead

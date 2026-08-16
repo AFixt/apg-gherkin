@@ -23,12 +23,32 @@ Feature: Tabs Interface Interaction and Accessibility
     When I press 'Right Arrow'
     Then focus should move to the next tab
     And if focus is on the last tab, it should move to the first tab
+    When I press 'Home' (Optional)
+    Then focus should move to the first tab
+    When I press 'End' (Optional)
+    Then focus should move to the last tab
+
+  # The APG defines two activation models. Automatic activation is the recommended
+  # default whenever tab panels can be displayed without noticeable latency; manual
+  # activation is the alternative for panels that cannot be preloaded. An
+  # implementation chooses one model, so the next two scenarios are alternatives.
+  Scenario: Automatic Activation on Focus
+    Given the tabs interface uses automatic activation
+    And the tab panels can be displayed without noticeable latency
+    When focus moves to a tab with 'Left Arrow', 'Right Arrow', 'Home' or 'End'
+    Then the newly focused tab should be activated
+    And its associated tabpanel should be displayed without any further keystroke
+    And the newly focused tab should have 'aria-selected' set to true
+
+  Scenario: Manual Activation
+    Given the tabs interface uses manual activation
+    And the tab panels cannot be displayed without noticeable latency
+    When focus moves to a tab with 'Left Arrow', 'Right Arrow', 'Home' or 'End'
+    Then focus should move without activating the newly focused tab
+    And the previously selected tabpanel should remain displayed
     When I press 'Space' or 'Enter'
     Then the focused tab should be activated
-    When I press 'Home' (optional)
-    Then focus should move to the first tab
-    When I press 'End' (optional)
-    Then focus should move to the last tab
+    And its associated tabpanel should be displayed
 
   Scenario: Optional Vertical Orientation of the Tab List
     Given the tab list has a vertical orientation

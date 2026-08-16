@@ -56,23 +56,24 @@ Feature: Combobox Interaction and Accessibility
     Then the characters should be entered in the combobox input
     And the popup should display suggestions if autocomplete is enabled
 
+  Scenario: Autocomplete Behavior - None
+    Given the combobox has autocomplete set to 'none'
+    When the popup is displayed
+    Then the suggested values it contains should be the same regardless of the characters typed in the combobox
+
   Scenario: Autocomplete Behavior - List
     Given the combobox has autocomplete set to 'list'
     When I type in the combobox
-    Then the popup should filter options to match the typed string
-    And unmatched options should be hidden or removed from the popup
-
-  Scenario: Autocomplete Behavior - Inline
-    Given the combobox has autocomplete set to 'inline'
-    When I type in the combobox
-    Then the portion of the suggested value not yet typed should appear inline after the cursor
-    And the inline suggestion should be selected so subsequent typing replaces it
+    Then the popup should present suggested values
+    And if the combobox is editable, the suggested values should complete or logically correspond to the characters typed in the combobox
+    Optionally, the popup may filter out values that do not correspond to the typed characters
 
   Scenario: Autocomplete Behavior - Both
     Given the combobox has autocomplete set to 'both'
     When I type in the combobox
-    Then the popup should filter options to match the typed string
-    And the portion of the first matching suggestion not yet typed should appear inline after the cursor
+    Then the popup should present suggested values that complete or logically correspond to the characters typed in the combobox
+    And the portion of the first suggested value not yet typed should appear inline after the cursor
+    And the inline completion should be selected so subsequent typing replaces it
 
   Scenario: Keyboard Navigation in a Listbox Popup
     Given the popup is a listbox and is open
@@ -132,9 +133,10 @@ Feature: Combobox Interaction and Accessibility
 
   Scenario: Tab Behavior with Open Popup
     Given the popup is open
+    Then the popup indicator icon or button, the popup, and the popup descendants should be excluded from the page tab sequence
     When I press 'Tab'
-    Then the popup should close
-    And focus should move to the next focusable element in the page tab sequence
+    Then focus should move to the next focusable element in the page tab sequence after the combobox
+    Optionally, the popup may close when focus leaves the combobox
 
   Scenario: Focus Management with aria-activedescendant
     Given the combobox uses 'aria-activedescendant' for focus management
@@ -155,11 +157,10 @@ Feature: Combobox Interaction and Accessibility
     Then the combobox should have 'aria-controls' set to the ID of the popup element when the popup is open
     And if the popup has autocomplete, the combobox should have 'aria-autocomplete' set to the appropriate value
     Examples:
-      | Autocomplete Type | aria-autocomplete Value |
-      | No autocomplete   | none                    |
-      | List filtering    | list                    |
-      | Inline completion | inline                  |
-      | Both              | both                    |
+      | Autocomplete Type            | aria-autocomplete Value |
+      | No autocomplete              | none                    |
+      | List of suggested values     | list                    |
+      | List plus inline completion  | both                    |
 
   Scenario: WAI-ARIA Roles for Popup Elements
     Given a combobox popup is present
