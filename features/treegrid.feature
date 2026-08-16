@@ -17,27 +17,36 @@ Feature: Treegrid Interaction and Accessibility
     Given the treegrid supports row focus and focus is on a row
     When I press 'Right Arrow' on a collapsed row
     Then the row should expand
-    When I press 'Right Arrow' on an expanded row
+    When I press 'Right Arrow' on an expanded row or on a row that does not have child rows
     Then focus should move to the first cell in the row
     When I press 'Left Arrow' on an expanded row
     Then the row should collapse
-    When I press 'Left Arrow' on a collapsed or end row
-    Then focus should move to the parent row
+    When I press 'Left Arrow' on a collapsed row or on a row that does not have child rows
+    Then focus should not move
     When I press 'Down Arrow'
-    Then focus should move to the next visible row
+    Then focus should move one row down
+    And if focus is on the last row, focus should not move
     When I press 'Up Arrow'
-    Then focus should move to the previous visible row
+    Then focus should move one row up
+    And if focus is on the first row, focus should not move
 
   Scenario: Cell Focus
     Given focus is on a cell within a row
     When I press 'Right Arrow'
-    Then focus should move to the next cell in the row
-    When I press 'Left Arrow' on the first cell in a row
-    Then focus should move to the row, if row focus is supported
+    Then focus should move one cell to the right
+    And if focus is on the right-most cell in a row, focus should not move
+    When I press 'Left Arrow' on the first cell in a row and row focus is supported
+    Then focus should move to the row
+    When I press 'Left Arrow' on the first cell in a row and row focus is not supported
+    Then focus should not move
+    When I press 'Left Arrow' on any other cell
+    Then focus should move one cell to the left
     When I press 'Down Arrow'
-    Then focus should move to the cell in the same column in the next visible row
+    Then focus should move one cell down
+    And if focus is on the bottom cell in the column, focus should not move
     When I press 'Up Arrow'
-    Then focus should move to the cell in the same column in the previous visible row
+    Then focus should move one cell up
+    And if focus is on the top cell in the column, focus should not move
 
   Scenario: Navigating and Interacting with the Treegrid
     Given the treegrid allows navigation and interaction
