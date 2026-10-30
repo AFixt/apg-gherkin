@@ -1,7 +1,7 @@
 # NOTE: The APG Tooltip page is explicitly labelled work-in-progress and has not
 # reached task force consensus, so this pattern is expected to churn. Scenarios
-# here are limited to what that page currently states; anything not sourced from
-# it has been removed rather than inferred.
+# here are limited to what that page currently states, plus the one inference
+# marked as such below; anything else not sourced from it has been removed.
 Feature: Tooltip Display and Accessibility
 
   As a user of the website
@@ -47,9 +47,10 @@ Feature: Tooltip Display and Accessibility
   # Inferred, not stated: the APG offers the non-modal dialog as an available
   # alternative ("a hover that contains focusable elements can be made using a
   # non-modal dialog") rather than prohibiting tooltips outright. The prohibition
-  # below follows from the pattern's own focus rules — a tooltip never receives
+  # below follows from the pattern's own focus rules: a tooltip never receives
   # focus and focus stays on the trigger, so focusable content inside one is
-  # unreachable. Becomes a direct assertion if the consensus pattern states it.
+  # unreachable from the keyboard. Becomes a direct assertion if the consensus
+  # pattern states it.
   Scenario: Choosing Between a Tooltip and a Non-Modal Dialog
     Given a popup needs to contain focusable content
     Then the tooltip pattern should not be used for it
